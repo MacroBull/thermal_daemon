@@ -15,6 +15,7 @@ echo "C : Add zone test"
 echo "D : Set zone test"
 echo "E : Get zone test"
 echo "F : Delete zone test"
+echo "G : Add cdev test"
 
 echo -n " Enter thermald preference [1..6]: "
 read opt_no
@@ -72,6 +73,10 @@ dbus-send --system --dest=org.freedesktop.thermald --print-reply /org/freedeskto
 
 F)
 dbus-send --system --dest=org.freedesktop.thermald /org/freedesktop/thermald org.freedesktop.thermald.DeleteZone string:"TEST_ADD_ZONE"
+;;
+
+G)
+dbus-send --system --dest=org.freedesktop.thermald /org/freedesktop/thermald org.freedesktop.thermald.AddCoolingDevice string:"TEST_CDEV" string:"/sys/class/thermal/cooling_device0/cur_state" int32:0 int32:1 int32:1
 ;;
 
 *) echo "Invalid option"

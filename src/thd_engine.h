@@ -32,6 +32,7 @@
 #include "thd_sys_fs.h"
 #include "thd_preference.h"
 #include "thd_sensor.h"
+#include "thd_sensor_virtual.h"
 #include "thd_zone.h"
 #include "thd_cdev.h"
 #include "thd_parse.h"
@@ -219,6 +220,8 @@ public:
 	// User/External messages
 	int user_add_sensor(std::string name, std::string path);
 	cthd_sensor *user_get_sensor(unsigned int index);
+	int user_add_virtual_sensor(std::string name, std::string dep_sensor,
+			double slope, double intercept);
 
 	int user_set_psv_temp(std::string name, unsigned int temp);
 	int user_set_max_temp(std::string name, unsigned int temp);
@@ -227,6 +230,10 @@ public:
 	int user_set_zone_status(std::string name, int status);
 	int user_get_zone_status(std::string name, int *status);
 	int user_delete_zone(std::string name);
+
+	int user_add_cdev(std::string cdev_name, std::string cdev_path,
+			int min_state, int max_state, int step);
+
 };
 
 #endif /* THD_ENGINE_H_ */

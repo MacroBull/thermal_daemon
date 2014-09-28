@@ -40,6 +40,7 @@ protected:
 	bool sensor_active;
 	std::string type_str;
 	bool async_capable;
+	bool virtual_sensor;
 
 private:
 	std::vector<int> thresholds;
@@ -82,6 +83,9 @@ public:
 	// at critical monitoring point. Sensors can be forced to go to poll mode at that temp
 	void sensor_poll_trip(bool status);
 
+	bool is_virtual() {
+		return virtual_sensor;
+	}
 };
 
 #endif /* THD_SENSOR_H_ */

@@ -87,9 +87,19 @@
     <method name="AddCoolingDevice">
       <arg type="s" name="cdev_name" direction="in"/>
       <arg type="s" name="optional_path" direction="in"/>
-      <arg type="u" name="min_state" direction="in"/>
-      <arg type="u" name="max_state" direction="in"/>
+      <arg type="i" name="min_state" direction="in"/>
+      <arg type="i" name="max_state" direction="in"/>
+      <arg type="i" name="inc_step" direction="in"/>
     </method>
+
+    <method name="UpdateCoolingDevice">
+      <arg type="s" name="cdev_name" direction="in"/>
+      <arg type="s" name="optional_path" direction="in"/>
+      <arg type="i" name="min_state" direction="in"/>
+      <arg type="i" name="max_state" direction="in"/>
+      <arg type="i" name="inc_step" direction="in"/>
+    </method>
+
 
     <method name="DisableCoolingDevice">
       <arg type="s" name="cdev_name" direction="in"/>

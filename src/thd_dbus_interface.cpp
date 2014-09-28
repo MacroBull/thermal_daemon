@@ -69,23 +69,24 @@ gboolean thd_dbus_interface_get_zone_status(PrefObject *obj, gchar *zone_name,
 gboolean thd_dbus_interface_delete_zone(PrefObject *obj, gchar *zone_name,
 		GError **error);
 
-// Adjust parameters for the following
 gboolean thd_dbus_interface_add_virtual_sensor(PrefObject *obj, gchar *name,
-		GError **error) {
-	return FALSE;
-}
+		gchar *dep_sensor, double slope, double intercept, GError **error);
 
+gboolean thd_dbus_interface_add_cooling_device(PrefObject *obj,
+		gchar *cdev_name, gchar *path, gint min_state, gint max_state,
+		gint step, GError **error);
+
+gboolean thd_dbus_interface_update_cooling_device(PrefObject *obj,
+		gchar *cdev_name, gchar *path, gint min_state, gint max_state,
+		gint step, GError **error);
+
+// To be implemented
 gboolean thd_dbus_interface_add_trip_point(PrefObject *obj, gchar *name,
 		GError **error) {
 	return FALSE;
 }
 
 gboolean thd_dbus_interface_delete_trip_point(PrefObject *obj, gchar *name,
-		GError **error) {
-	return FALSE;
-}
-
-gboolean thd_dbus_interface_add_cooling_device(PrefObject *obj, gchar *name,
 		GError **error) {
 	return FALSE;
 }
@@ -212,6 +213,26 @@ gboolean thd_dbus_interface_add_sensor(PrefObject *obj, gchar *sensor,
 		return FALSE;
 }
 
+// Adjust parameters for the following
+gboolean thd_dbus_interface_add_virtual_sensor(PrefObject *obj, gchar *name,
+		gchar *dep_sensor, double slope, double intercept, GError **error) {
+
+	int ret;
+
+	g_assert(obj != NULL);
+
+	thd_log_debug("thd_dbus_interface_add_sensor %s:%s\n", (char*) name,
+			(char *) dep_sensor);
+
+	ret = thd_engine->user_add_virtual_sensor(name, dep_sensor, slope,
+			intercept);
+
+	if (ret == THD_SUCCESS)
+		return TRUE;
+	else
+		return FALSE;
+}
+
 gboolean thd_dbus_interface_get_sensor_information(PrefObject *obj, gint index,
 		gchar **sensor_out, gchar **path, gint *temp, GError **error) {
 	char error_str[] = "Invalid Contents";
@@ -307,6 +328,35 @@ gboolean thd_dbus_interface_delete_zone(PrefObject *obj, gchar *zone_name,
 		return TRUE;
 	else
 		return FALSE;
+}
+
+gboolean thd_dbus_interface_add_cooling_device(PrefObject *obj,
+		gchar *cdev_name, gchar *path, gint min_state, gint max_state,
+		gint step, GError **error) {
+	int ret;
+
+	g_assert(obj != NULL);
+
+	thd_log_debug("thd_dbus_interface_add_cooling_device %s\n",
+			(char*) cdev_name);
+	ret = thd_engine->user_add_cdev(cdev_name, path, min_state, max_state,
+			step);
+	if (ret == THD_SUCCESS)
+		return TRUE;
+	else
+		return FALSE;
+}
+
+gboolean thd_dbus_interface_update_cooling_device(PrefObject *obj,
+		gchar *cdev_name, gchar *path, gint min_state, gint max_state,
+		gint step, GError **error) {
+	int ret;
+
+	g_assert(obj != NULL);
+
+	return thd_dbus_interface_add_cooling_device(obj, cdev_name, path,
+			min_state, max_state, step, error);
+
 }
 
 // Setup dbus server
