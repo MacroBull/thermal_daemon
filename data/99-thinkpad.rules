@@ -1,0 +1,3 @@
+# Thermald fan control
+
+ACTION=="add", DRIVERS=="thinkpad_hwmon", ATTR{pwm1_enable}="1", ATTR{pwm1}="128", TAG+="systemd", ENV{SYSTEMD_WANTS}="thermald"
