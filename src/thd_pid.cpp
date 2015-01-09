@@ -43,7 +43,7 @@ int cthd_pid::pid_output(unsigned int curr_temp) {
 	time_t timeChange = (now - last_time);
 
 	int error = curr_temp - target_temp;
-	thd_log_debug("pid_output error %d %g:%g\n", error, kp, kp * error);
+	thd_log_debug("pid_output error %d x %g = %g\n", error, kp, kp * error);
 	err_sum += (error * timeChange);
 	if (timeChange)
 		d_err = (error - last_err) / timeChange;
@@ -52,12 +52,12 @@ int cthd_pid::pid_output(unsigned int curr_temp) {
 
 	/*Compute PID Output*/
 	output = kp * error + ki * err_sum + kd * d_err;
-	thd_log_debug("pid %d:%d:%d:%d\n", (int) output, (int) (kp * error),
-			(int) (ki * err_sum), (int) (kd * d_err));
+	thd_log_debug("pid %d = %d:%d:%d over %d\n", (int) output, (int) (kp * error),
+				  (int) (ki * err_sum), (int) (kd * d_err), timeChange);
 	/*Remember some variables for next time*/
 	last_err = error;
 	last_time = now;
-	thd_log_debug("pid_output %d:%d %g:%d\n", curr_temp, target_temp, output,
+	thd_log_debug("pid_output %d - %d = %g (%d)\n", curr_temp, target_temp, output,
 			(int) output);
 	return (int) output;
 }
