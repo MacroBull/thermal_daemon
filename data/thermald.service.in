@@ -4,7 +4,7 @@ Description=Thermal Daemon Service
 [Service]
 Type=dbus
 BusName=org.freedesktop.thermald
-ExecStart=@sbindir@/thermald --no-daemon --dbus-enable
+ExecStart=@sbindir@/thermald --no-daemon --dbus-enable --exclusive-control
 
 [Install]
 WantedBy=multi-user.target
